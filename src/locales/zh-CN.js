@@ -88,6 +88,8 @@ module.exports = {
       no_weight: "输入没有权值",
       non_increment: "输入不递增",
       invalid_format: "输入格式非法",
+      self_loop: "输入存在自环",
+      multiple_edges: "输入存在重边",
       network: {
         no_flow: "输入没有流量",
         no_cost: "输入没有权值"

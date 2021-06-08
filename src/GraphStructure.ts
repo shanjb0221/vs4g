@@ -26,6 +26,18 @@ export function hasMultipleEdges(g: Graph) {
   return g.edges().some(({ source: s, target: t }) => edgeSet[s].size === edgeSet[s].add(t).size);
 }
 
+export function isSimple(g: Graph, directed: boolean = false): boolean {
+  let edgeSet = Array.from({ length: g.nodes().length }, () => new Set<number>());
+  return g
+    .edges()
+    .some(
+      e =>
+        e.source === e.target ||
+        edgeSet[e.source].size === edgeSet[e.source].add(e.target).size ||
+        (!directed && edgeSet[e.target].size === edgeSet[e.target].add(e.source).size)
+    );
+}
+
 const emptyObject = () => ({});
 
 /**
@@ -68,8 +80,7 @@ export function fromRandom(
 }
 
 export class NodeEdgeList implements Graph {
-  constructor(protected _nodes: Node[], protected _edges: Edge[]) {
-  }
+  constructor(protected _nodes: Node[], protected _edges: Edge[]) {}
 
   static from(g: Graph) {
     return new NodeEdgeList(g.nodes(), g.edges());

@@ -1,5 +1,5 @@
 import { NewGraphAlgorithm, ParameterDescriptor, Step } from "@/GraphAlgorithm";
-import { AdjacencyList, hasMultipleEdges, hasSelfLoop, Edge, Graph, Node, NodeEdgeList } from "@/GraphStructure";
+import { AdjacencyList, hasSelfLoop, Edge, Graph, Node, NodeEdgeList, isSimple } from "@/GraphStructure";
 import { Queue } from "@/utils/DataStructure";
 import NetworkGraphRenderer from "@/ui/render/NetworkGraphRenderer";
 import GraphMatrixInput from "@/ui/input/GraphMatrixInput";
@@ -15,7 +15,11 @@ export class EdmondsGabow_alpha implements NewGraphAlgorithm {
   // TODO: no self loop, no multiple edges
   graphInputComponent = (
     <GraphMatrixInput
-      checker={g => g}
+      checker={g => {
+        if (hasSelfLoop(g)) throw new Error(".input.error.self_loop");
+        if (!isSimple(g)) throw new Error(".input.error.multiple_edges");
+        return g;
+      }}
       formatters={[new EdgeListFormatter(false, false)]}
       description={"Please input a graph without self loop and multiple edges"}
     />
@@ -211,9 +215,7 @@ export class EdmondsGabow_alpha implements NewGraphAlgorithm {
   }
 
   *run(graph: Graph): Generator<Step> {
-    if (hasSelfLoop(graph)) throw new Error("algo Gabow : self loop");
     this.adjlist = AdjacencyList.from(graph, false);
-    if (hasMultipleEdges(this.adjlist)) throw new Error("algo Gabow : mutiple edges");
     this.edges = graph.edges();
     this.nodes = graph.nodes();
     this.n = this.nodes.length;

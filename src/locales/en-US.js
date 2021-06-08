@@ -83,11 +83,13 @@ module.exports = {
       not_square: "Not a matrix",
       not_matrix: "Not a square matrix",
       asymmetric: "Not a symmetric matrix",
-      edge_count_incorrect: "incorrect edge count",
-      edge_format_incorrect: "incorrect edge format",
+      edge_count_incorrect: "Incorrect edge count",
+      edge_format_incorrect: "Incorrect edge format",
       no_weight: "No weight",
       non_increment: "Non increment",
       invalid_format: "Invalid format",
+      self_loop: "Self-loop found",
+      multiple_edges: "Multiple-edges found",
       network: {
         no_flow: "No flow",
         no_cost: "No cost"
